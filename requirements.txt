@@ -1,0 +1,39 @@
+# All-in-One System Tools Dependencies
+# Cross-platform requirements (Windows/Linux)
+
+# Core system monitoring
+psutil>=5.9.0
+
+# Hardware diagnostics
+opencv-python>=4.5.0
+sounddevice>=0.4.4
+pygame>=2.1.0
+bleak>=0.19.0  # Bluetooth Low Energy
+pynput>=1.7.6
+
+# Windows-specific (install only on Windows)
+WMI>=1.5.0; sys_platform == "win32"
+
+# Linux-specific (install only on Linux)
+python-dbus>=1.2.18; sys_platform == "linux"
+
+# GUI interface (tkinter is included with Python)
+# Additional GUI libraries for enhanced interface
+# tkinter-modernui>=1.0.0  # Optional modern tkinter theme
+
+# Web interface
+Flask>=2.3.0
+Flask-CORS>=4.0.0
+
+# Logging and utilities
+colorama>=0.4.6
+packaging>=21.3
+
+# Optional: Advanced features
+requests>=2.28.0     # For API integrations
+schedule>=1.2.0      # For scheduled tasks
+watchdog>=2.1.0      # File system monitoring
+
+# Development and testing (optional)
+# pytest>=7.0.0
+# pytest-cov>=4.0.0
