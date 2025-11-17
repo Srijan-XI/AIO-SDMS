@@ -8,7 +8,7 @@ import platform
 import psutil
 from typing import Dict, Any, List, Optional, NamedTuple
 from dataclasses import dataclass
-from ..common.utils import safe_execute, format_bytes, format_percentage, is_windows, is_linux
+from core.common.utils import safe_execute, format_bytes, format_percentage, is_windows, is_linux
 
 class SystemMetrics(NamedTuple):
     """System metrics data structure"""

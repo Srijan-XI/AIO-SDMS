@@ -7,7 +7,7 @@ import psutil
 import time
 from typing import Dict, Any, Optional, NamedTuple, Callable
 from dataclasses import dataclass
-from ..common.utils import safe_execute, format_percentage, format_duration
+from core.common.utils import safe_execute, format_percentage, format_duration
 
 class BatteryInfo(NamedTuple):
     """Battery information data structure"""

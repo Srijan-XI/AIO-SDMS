@@ -5,13 +5,13 @@ Command Line Interface for All-in-One System Tools
 import sys
 import time
 from typing import Optional, Dict, Any
-from ..core.common.config import Config
-from ..core.common.logger import Logger
-from ..core.battery.battery_monitor import create_battery_monitor
-from ..core.diagnostics.hardware_tests import create_diagnostics
-from ..core.monitoring.system_monitor import create_system_monitor
-from ..core.package_mgmt.winget_manager import create_package_manager
-from ..core.common.utils import create_progress_bar, format_duration
+from core.common.config import Config
+from core.common.logger import Logger
+from core.battery.battery_monitor import create_battery_monitor
+from core.diagnostics.hardware_tests import create_diagnostics
+from core.monitoring.system_monitor import create_system_monitor
+from core.package_mgmt.winget_manager import create_package_manager
+from core.common.utils import create_progress_bar, format_duration
 
 class CLIInterface:
     """Command Line Interface implementation"""
@@ -637,5 +637,5 @@ class CLIInterface:
     
     def _format_bytes(self, bytes_value: int) -> str:
         """Format bytes for display"""
-        from ..core.common.utils import format_bytes
+        from core.common.utils import format_bytes
         return format_bytes(bytes_value)

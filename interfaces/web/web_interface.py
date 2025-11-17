@@ -19,12 +19,12 @@ try:
 except ImportError:
     FLASK_AVAILABLE = False
 
-from ..core.common.config import Config
-from ..core.common.logger import Logger
-from ..core.battery.battery_monitor import create_battery_monitor
-from ..core.diagnostics.hardware_tests import create_diagnostics
-from ..core.monitoring.system_monitor import create_system_monitor
-from ..core.package_mgmt.winget_manager import create_package_manager
+from core.common.config import Config
+from core.common.logger import Logger
+from core.battery.battery_monitor import create_battery_monitor
+from core.diagnostics.hardware_tests import create_diagnostics
+from core.monitoring.system_monitor import create_system_monitor
+from core.package_mgmt.winget_manager import create_package_manager
 
 class WebInterface:
     """Flask-based Web Interface implementation"""

@@ -9,7 +9,7 @@ import platform
 from typing import Dict, Any, List, Optional, NamedTuple
 from dataclasses import dataclass
 from enum import Enum
-from ..common.utils import safe_execute, is_windows, is_linux, is_macos
+from core.common.utils import safe_execute, is_windows, is_linux, is_macos
 
 class TestResult(Enum):
     """Test result status"""

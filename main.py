@@ -53,7 +53,7 @@ Examples:
     
     # Interface selection
     interface_group = parser.add_mutually_exclusive_group()
-    interface_group.add_argument('--cli', action='store_true', default=True,
+    interface_group.add_argument('--cli', action='store_true',
                                 help='Use Command Line Interface (default)')
     interface_group.add_argument('--gui', action='store_true',
                                 help='Use Graphical User Interface')

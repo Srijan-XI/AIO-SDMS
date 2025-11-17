@@ -11,8 +11,8 @@ from typing import Dict, Any, List, Optional, NamedTuple
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from ..common.utils import safe_execute, is_windows
-from ..common.logger import get_logger
+from core.common.utils import safe_execute, is_windows
+from core.common.logger import get_logger
 
 class PackageInfo(NamedTuple):
     """Package information data structure"""
