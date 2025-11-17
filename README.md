@@ -33,9 +33,19 @@ A unified application that combines all diagnostic and monitoring tools with mul
 
 ```bash
 cd AIO-SDMS
-python main.py --cli          # Command Line Interface (default)
-python main.py --gui          # Graphical Interface (planned)
-python main.py --web          # Web Interface (available)
+
+# Using the installed package (recommended)
+aio-sdms --cli          # Command Line Interface (default)
+aio-sdms --gui          # Graphical Interface
+aio-sdms --web          # Web Interface
+
+# Or using Python module
+python -m aio_sdms --cli
+python -m aio_sdms --gui
+python -m aio_sdms --web
+
+# Legacy method (still supported)
+python main.py --cli
 ```
 
 ### ✨ Integrated Tools & Features
@@ -50,103 +60,170 @@ python main.py --web          # Web Interface (available)
 
 ## 🛠️ Quick Start
 
-### Windows Installation
+### Installation (Recommended - Editable Install)
+
 1. **Clone the repository**
    ```bash
    git clone https://github.com/Srijan-XI/AIO-SDMS.git
-   cd aio-sdms
+   cd AIO-SDMS
    ```
 
-2. **Install dependencies**
+2. **Install in editable mode**
+   ```bash
+   pip install -e .
+   ```
+   
+   This installs the package with all dependencies and creates the `aio-sdms` command.
+
+3. **Run the application**
+   ```bash
+   aio-sdms --cli          # CLI interface (default)
+   aio-sdms --gui          # GUI interface
+   aio-sdms --web          # Web interface
+   aio-sdms --version      # Show version
+   
+   # Or use Python module
+   python -m aio_sdms --cli
+   ```
+
+### Alternative Installation (Manual Dependencies)
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/Srijan-XI/AIO-SDMS.git
+   cd AIO-SDMS
+   ```
+
+2. **Install dependencies only**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Run the application**
+3. **Run using legacy method**
    ```bash
-   python main.py          # CLI interface (default)
-   python main.py --web    # Web interface
-   python main.py --verbose # Enable detailed logging
+   python main.py --cli
+   python main.py --web
    ```
 
 ### Linux Installation (Automated)
 1. **Clone and run setup script**
    ```bash
    git clone https://github.com/Srijan-XI/AIO-SDMS.git
-   cd aio-sdms
-   chmod +x setup.sh
-   ./setup.sh
+   cd AIO-SDMS
+   chmod +x scripts/setup.sh
+   ./scripts/setup.sh
    ```
 
-2. **Use the installed tool**
+2. **Or install manually**
    ```bash
-   allinone-tools          # CLI interface
-   allinone-tools --web    # Web interface (http://localhost:5000)
-   allinone-tools battery  # Direct tool access
+   git clone https://github.com/Srijan-XI/AIO-SDMS.git
+   cd AIO-SDMS
+   pip install -e .
    ```
 
-   📖 **Detailed Linux Guide**: See [`docs/README_LINUX.md`](docs/README_LINUX.md)
+3. **Use the installed tool**
+   ```bash
+   aio-sdms                # CLI interface
+   aio-sdms --web          # Web interface
+   aio-sdms battery        # Direct tool access
+   ```
+
+   📖 **Detailed Linux Guide**: See [`docs/I&S_LINUX.md`](docs/I&S_LINUX.md)
 
 ### Quick Usage Examples
 ```bash
-# Run specific tools directly
-python main.py --cli battery      # Battery monitoring
-python main.py --cli diagnostics  # Hardware diagnostics
-python main.py --cli monitoring   # System monitoring
-python main.py --cli packages     # Package management
+# Using the installed command (recommended)
+aio-sdms --cli battery      # Battery monitoring
+aio-sdms --cli diagnostics  # Hardware diagnostics
+aio-sdms --cli monitoring   # System monitoring
+aio-sdms --cli packages     # Package management
 
 # Web interface
-python main.py --web              # Launch web interface
-# Then open: http://localhost:5000
+aio-sdms --web              # Launch web interface
+# Then open: http://localhost:8080
+
+# Using Python module
+python -m aio_sdms --cli battery
+python -m aio_sdms --web --port 5000
+
+# Legacy method
+python main.py --cli battery
 ```
 
 ## 📁 Project Structure
 
-### 🆕 AIO-SDMS (Primary)
+### 🆕 Modern Python Package Structure (v2.0)
 ```
 AIO-SDMS/
 │
-├── main.py                 # Application entry point
-├── config.json            # Configuration file
-├── requirements.txt       # Python dependencies
-├── setup.sh              # Linux installation script
+├── pyproject.toml         # Modern Python project configuration
+├── setup.py              # Backward-compatible setup script
+├── requirements.txt      # Production dependencies
+├── requirements-dev.txt  # Development dependencies
+├── main.py              # Legacy entry point (still supported)
+├── config.json          # Default configuration
+├── README.md            # This file
+├── MIGRATION_GUIDE.md   # v1.0 → v2.0 migration guide
 │
-├── core/                  # Core functionality modules
-│   ├── common/           # Shared utilities
-│   │   ├── config.py     # Configuration management
-│   │   ├── logger.py     # Logging system
-│   │   └── utils.py      # Common utilities
+├── src/aio_sdms/        # Main package source
+│   ├── __init__.py      # Package initialization
+│   ├── __main__.py      # Module entry point (python -m aio_sdms)
+│   ├── cli.py           # CLI command entry point
 │   │
-│   ├── battery/          # Battery monitoring
-│   │   └── battery_monitor.py
+│   ├── core/            # Core functionality modules
+│   │   ├── battery/         # Battery monitoring
+│   │   ├── diagnostics/     # Hardware diagnostics
+│   │   ├── monitoring/      # System monitoring
+│   │   └── package_mgmt/    # Package management
 │   │
-│   ├── diagnostics/      # Hardware diagnostics
-│   │   └── hardware_tests.py
+│   ├── utils/           # Shared utilities (formerly common/)
+│   │   ├── config.py        # Configuration management
+│   │   ├── logger.py        # Logging system
+│   │   ├── utils.py         # Common utilities
+│   │   ├── theme_manager.py # GUI themes
+│   │   ├── notifications.py # System notifications
+│   │   ├── performance_monitor.py  # Performance tracking
+│   │   └── report_exporter.py      # Report generation
 │   │
-│   ├── monitoring/       # System monitoring
-│   │   └── system_monitor.py
+│   ├── ui/              # User interfaces (formerly interfaces/)
+│   │   ├── cli/             # Command Line Interface
+│   │   ├── gui/             # Graphical Interface
+│   │   └── web/             # Web Interface
 │   │
-│   └── package_mgmt/     # Package management
-│       └── winget_manager.py
+│   ├── services/        # Service layer (future)
+│   └── models/          # Data models (future)
 │
-└── interfaces/           # User interfaces
-    ├── cli/             # Command Line Interface
-    │   └── cli_interface.py
-    ├── gui/             # Graphical Interface (planned)
-    └── web/             # Web Interface
-        ├── index.html   # Main SPA application
-        ├── main.css     # Primary stylesheet
-        ├── app.js       # Main JavaScript
-        ├── static/      # Additional CSS/JS files
-        └── standalone_server.py # Development server
+├── tests/               # Test suite
+│   ├── unit/           # Unit tests (pytest notebooks)
+│   ├── integration/    # Integration tests
+│   └── fixtures/       # Test fixtures
+│
+├── data/               # Runtime data
+│   ├── logs/          # Application logs
+│   └── reports/       # Export reports
+│
+├── scripts/           # Utility scripts
+│   ├── setup.sh           # Linux installation
+│   └── verify_installation.py  # Installation verification
+│
+├── docs/              # Documentation
+│   ├── I&S_LINUX.md       # Linux installation & setup
+│   ├── SRS.md             # Software requirements
+│   ├── WEB_INTERFACE_GUIDE.md  # Web interface guide
+│   └── WEB_README.md      # Web interface details
+│
+├── config/            # Configuration templates
+└── assets/            # Static assets
 ```
 
-### Legacy Tools (Individual - Deprecated)
-- **BatteryMonitoringTool/** - Battery monitoring with CLI, GUI, and Web versions
-- **DeviceDiagnosticTool/** - Hardware diagnostics (CLI version)
-- **DeviceDiagnosticTool_GUI/** - Hardware diagnostics (GUI version)
-- **SystemMonitorTool/** - Cross-platform system monitoring
-- **winget_cli_tool/** - Windows package management
+### Key Changes from v1.0
+- ✅ **src-layout**: Modern Python package structure
+- ✅ **pyproject.toml**: PEP 517/518 compliant packaging
+- ✅ **Entry points**: `aio-sdms` command and `python -m aio_sdms`
+- ✅ **Organized tests**: Separate unit/integration/fixtures
+- ✅ **Data separation**: logs/ and reports/ moved to data/
+- ✅ **Script isolation**: setup.sh and utilities in scripts/
+- ✅ **Backward compatible**: main.py still works for legacy usage
 
 ## 🛠️ Available Tools
 
@@ -279,57 +356,51 @@ Customize the application behavior using the JSON configuration file (`config.js
 
 ### Command Line Interface
 ```bash
-# Interactive menu (default)
-python main.py
+# Using installed command (recommended)
+aio-sdms                    # Interactive menu
+aio-sdms --cli battery      # Direct tool access
+aio-sdms --cli diagnostics
+aio-sdms --cli monitoring  
+aio-sdms --cli packages
 
-# Direct tool access
+# With options
+aio-sdms --config custom_config.json
+aio-sdms --verbose
+aio-sdms --version
+aio-sdms --help
+
+# Using Python module
+python -m aio_sdms --cli battery
+python -m aio_sdms --verbose
+
+# Legacy method
 python main.py --cli battery
-python main.py --cli diagnostics
-python main.py --cli monitoring  
-python main.py --cli packages
-
-# With custom configuration
-python main.py --cli --config custom_config.json
-
-# Enable verbose logging
-python main.py --cli --verbose
-
-# Run specific diagnostic tests
-python main.py --cli diagnostics --test camera,microphone
-
-# Monitor specific system metrics
-python main.py --cli monitoring --metrics cpu,memory
 ```
 
 ### Web Interface
 ```bash
 # Launch web interface
-python main.py --web
+aio-sdms --web
 
 # Custom host and port
-python main.py --web --host 0.0.0.0 --port 8080
+aio-sdms --web --host 0.0.0.0 --port 8080
 
-# Debug mode
-python main.py --web --debug
+# Using Python module
+python -m aio_sdms --web --port 5000
 ```
 
-### Linux (After Installation)
+### Development Mode
 ```bash
-# Default CLI interface
-allinone-tools
+# After pip install -e .
+aio-sdms --cli --verbose
+aio-sdms --web --host 0.0.0.0
 
-# Specific tools
-allinone-tools battery
-allinone-tools diagnostics
-allinone-tools monitor
-allinone-tools packages
+# Run tests
+pytest tests/unit/
+pytest tests/integration/
 
-# Web interface
-allinone-tools --web
-
-# Help and options
-allinone-tools --help
-allinone-tools --version
+# Check installation
+python scripts/verify_installation.py
 ```
 
 ## 📊 Performance & Resource Usage
@@ -382,53 +453,76 @@ Tested on various systems to ensure optimal performance:
 
 ## 📊 Version History
 
-### v2.0.0 (Current) - October 2025
-- ✅ **Major Release**: Complete rewrite as unified application
-- ✅ **All-in-One Architecture**: Integrated all tools into single application
-- ✅ **Web Interface**: Full-featured web interface with real-time monitoring
-- ✅ **Linux Support**: Automated installation script for major distributions
-- ✅ **Enhanced CLI**: Improved command-line interface with better navigation
-- ✅ **Configuration System**: JSON-based configuration with validation
-- ✅ **Advanced Logging**: Multi-level logging with file rotation
-- ✅ **Cross-platform**: Windows and Linux compatibility
+### v2.0.0 (Current) - November 2025
+- ✅ **Major Restructuring**: Modern Python package with src-layout
+- ✅ **Package Installation**: `pip install -e .` with entry points
+- ✅ **CLI Command**: `aio-sdms` command available system-wide
+- ✅ **Module Entry**: `python -m aio_sdms` support
+- ✅ **pyproject.toml**: PEP 517/518 compliant packaging
+- ✅ **Enhanced Features**: Themes, notifications, performance monitoring, report export
+- ✅ **Comprehensive Testing**: pytest-based unit tests in Jupyter notebooks
+- ✅ **Better Organization**: Separated utils, ui, services, models
+- ✅ **Migration Guide**: Detailed v1.0 → v2.0 upgrade documentation
+- ✅ **Backward Compatible**: Legacy main.py still supported
 
-### v1.x (Legacy) - 2024
-- 📦 **Individual Tools**: Separate applications for each function
+### v1.x (Legacy) - 2024-2025
+- 📦 **Unified Application**: Combined all tools into single application
+- 🔋 **All-in-One Architecture**: Integrated battery, diagnostics, monitoring, packages
+- 🌐 **Web Interface**: Full-featured web interface with real-time monitoring
+- 🐧 **Linux Support**: Automated installation script for major distributions
+- ⚙️ **Configuration System**: JSON-based configuration with validation
+- 📝 **Advanced Logging**: Multi-level logging with file rotation
+
+### v0.x (Individual Tools) - 2024
+- 📦 **Separate Applications**: Individual tools for each function
 - 🔋 **Battery Monitor**: CLI, GUI, and web versions
 - 🔧 **Device Diagnostics**: Hardware testing tools
 - 📊 **System Monitor**: Platform-specific monitoring
 - 📦 **Package Manager**: Windows-only winget interface
 
 ### Upgrade Path
-Users of v1.x tools can seamlessly upgrade to v2.0:
-- **Migration**: All functionality preserved and enhanced
-- **Configuration**: Automatic migration of settings
-- **Data**: Historical data and logs preserved
-- **Compatibility**: Legacy command-line syntax still supported
+Migrating from v1.x to v2.0:
+1. **Install v2.0**: `pip install -e .` in the new structure
+2. **Import Changes**: Update `from core.common.*` to `from aio_sdms.utils.*`
+3. **Entry Points**: Use `aio-sdms` command instead of `python main.py`
+4. **Configuration**: Same config.json format (no changes needed)
+5. **Data Migration**: Logs and reports automatically moved to data/
+
+📖 **Detailed Migration Guide**: See [`MIGRATION_GUIDE.md`](MIGRATION_GUIDE.md)
 
 ## 🚧 Development Status
 
 ### ✅ Completed
+- [x] **Modern Package Structure**: src-layout with pyproject.toml
+- [x] **Entry Points**: CLI command and module execution
 - [x] **Core Architecture**: Modular design with clean separation of concerns
 - [x] **CLI Interface**: Full-featured command-line interface with interactive menus
 - [x] **Web Interface**: Modern single-page application with real-time updates
+- [x] **GUI Interface**: Desktop application with themes, tray, and graphs
 - [x] **Configuration System**: JSON-based configuration with validation
 - [x] **Advanced Logging**: Multi-level logging with file rotation and colored output
 - [x] **Battery Monitoring**: Real-time monitoring with charging analysis
 - [x] **Hardware Diagnostics**: Comprehensive testing suite for all major components
 - [x] **System Monitoring**: Real-time system metrics with historical data
 - [x] **Package Management**: Windows package management via winget
+- [x] **Performance Monitoring**: Resource tracking and metrics
+- [x] **Notifications**: System notifications for important events
+- [x] **Report Export**: Export reports in JSON, CSV, HTML formats
+- [x] **Testing Framework**: pytest-based unit tests in Jupyter notebooks
 - [x] **Linux Support**: Automated installation script for major distributions
 - [x] **Cross-platform Compatibility**: Windows and Linux support with graceful degradation
 
 ### 🔄 Currently Available
 - ✅ **CLI Interface**: Fully functional with all tools
+- ✅ **GUI Interface**: Desktop application with themes, tray support, and performance graphs
 - ✅ **Web Interface**: Complete SPA with dashboard, real-time monitoring, and tool access
+- ✅ **Package Installation**: Modern pip install with entry points
+- ✅ **Testing Suite**: Comprehensive unit tests using pytest in Jupyter notebooks
 - ✅ **Linux Installation**: One-command automated setup for major distributions
-- ✅ **Windows Support**: Manual installation with comprehensive documentation
+- ✅ **Windows Support**: Full support with manual or pip installation
 
 ### 📋 Planned Features (Future Releases)
-- [ ] **Native GUI Interface**: Desktop application with PyQt5/Tkinter
+- [ ] **Enhanced GUI**: Additional widgets and customization options
 - [ ] **Mobile Companion**: Smartphone app for remote monitoring
 - [ ] **Plugin System**: Third-party tool integration framework
 - [ ] **Cloud Synchronization**: Cross-device configuration and data sync
@@ -436,6 +530,7 @@ Users of v1.x tools can seamlessly upgrade to v2.0:
 - [ ] **Enterprise Features**: Multi-machine management and reporting
 - [ ] **Multi-language Support**: Internationalization for global users
 - [ ] **Advanced Analytics**: Historical trends and performance insights
+- [ ] **CI/CD Integration**: Automated testing and deployment pipelines
 
 ## ❓ Frequently Asked Questions
 
@@ -478,7 +573,7 @@ A: Very minimal - typically 20-50MB RAM and <1% CPU during idle. Resource usage 
 A: Python 3.7 or higher. We recommend Python 3.9+ for the best experience.
 
 **Q: Can I extend this with custom tools?**
-A: Yes, the modular architecture makes it easy to add new tools. Detailed documentation for developers is available.
+A: Yes, the modular architecture makes it easy to add new tools. See the developer documentation in the repository and check out the existing tools in `src/aio_sdms/core/` for examples.
 
 **Q: Does it work on ARM processors?**
 A: Yes, it works on ARM64 systems including Raspberry Pi and Apple Silicon Macs (with manual installation).
@@ -488,20 +583,43 @@ A: Use GitHub Issues for bugs and feature requests. Include system information a
 
 ## 📦 Dependencies
 
+### Installation Methods
+
+**Recommended (Editable Install)**
+```bash
+pip install -e .
+```
+This automatically installs all dependencies from `pyproject.toml`.
+
+**Manual (Requirements File)**
+```bash
+pip install -r requirements.txt      # Production dependencies
+pip install -r requirements-dev.txt  # Development dependencies (includes pytest)
+```
+
 ### Core Dependencies
 ```
 psutil>=5.9.0           # System monitoring and process management
 colorama>=0.4.6         # Colored terminal output
 packaging>=21.3         # Version parsing and management
+Flask>=2.3.0            # Web framework for API and interface
+Flask-CORS>=4.0.0       # Cross-origin resource sharing
 ```
 
-### Hardware Diagnostics
+### Hardware Diagnostics (Optional - GUI Features)
 ```
 opencv-python>=4.5.0    # Camera access and video processing
 sounddevice>=0.4.4      # Audio recording and playback
 pygame>=2.1.0           # Audio testing and multimedia
 bleak>=0.19.0           # Bluetooth Low Energy scanning
 pynput>=1.7.6           # Keyboard and mouse input monitoring
+```
+
+### GUI Interface (Optional)
+```
+tkinter                 # GUI framework (usually included with Python)
+matplotlib>=3.5.0       # Performance graphs (optional)
+Pillow>=9.0.0          # Image processing for GUI (optional)
 ```
 
 ### Web Interface
@@ -521,7 +639,20 @@ python-dbus>=1.2.18     # D-Bus interface (Linux only)
 requests>=2.28.0        # HTTP client for API integrations
 schedule>=1.2.0         # Task scheduling
 watchdog>=2.1.0         # File system monitoring
-pytest>=7.0.0           # Testing framework (development)
+```
+
+### Development Dependencies
+```
+pytest>=7.0.0           # Testing framework
+pytest-cov>=4.0.0       # Test coverage reporting
+black>=22.0.0           # Code formatting
+flake8>=5.0.0           # Code linting
+mypy>=0.990             # Type checking
+```
+
+All development dependencies are listed in `requirements-dev.txt` and can be installed with:
+```bash
+pip install -r requirements-dev.txt
 ```
 
 # MIT License Summary
@@ -583,15 +714,19 @@ pytest>=7.0.0           # Testing framework (development)
 
 ## 📊 Stats
 
+- **Version**: 2.0.0 (November 2025)
 - **Lines of Code**: ~15,000+ (Python, JavaScript, HTML, CSS)
+- **Package Structure**: Modern src-layout with pyproject.toml
 - **Supported Platforms**: Windows, Linux (macOS experimental)
+- **Python Version**: 3.7+ (recommended 3.9+)
 - **Languages**: English (more languages planned)
 - **Dependencies**: 15+ Python packages, 3+ JavaScript libraries
-- **Test Coverage**: Expanding (target: 80%+)
+- **Test Coverage**: Growing (unit tests in Jupyter notebooks)
 - **Documentation**: Comprehensive guides and API docs
+- **Entry Points**: CLI command (`aio-sdms`) + module (`python -m aio_sdms`)
 
 ---
 
 **Made with ❤️ by [Srijan-XI](https://github.com/Srijan-XI)**
 
-*"Empowering users with comprehensive system diagnostics and monitoring tools."*# AIO-SDMS
+*"Empowering users with comprehensive system diagnostics and monitoring tools."*
