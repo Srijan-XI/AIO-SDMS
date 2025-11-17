@@ -13,6 +13,7 @@ pynput>=1.7.6
 
 # Windows-specific (install only on Windows)
 WMI>=1.5.0; sys_platform == "win32"
+win10toast>=0.9; sys_platform == "win32"  # Windows notifications
 
 # Linux-specific (install only on Linux)
 python-dbus>=1.2.18; sys_platform == "linux"
@@ -27,12 +28,23 @@ Flask-CORS>=4.0.0
 
 # Logging and utilities
 colorama>=0.4.6
+
+# Enhanced features (v2.0)
+matplotlib>=3.5.0  # Performance graphs
+pystray>=0.19.0    # System tray icon
+pillow>=9.0.0      # Image support for tray
+
+# Testing
+pytest>=7.0.0
+pytest-cov>=4.0.0
+pytest-mock>=3.10.0
 packaging>=21.3
 
 # Optional: Advanced features
 requests>=2.28.0     # For API integrations
 schedule>=1.2.0      # For scheduled tasks
 watchdog>=2.1.0      # File system monitoring
+matplotlib>=3.5.0    # For performance graphs (optional)
 
 # Development and testing (optional)
 # pytest>=7.0.0

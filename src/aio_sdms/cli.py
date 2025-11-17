@@ -1,44 +1,34 @@
 #!/usr/bin/env python3
 """
-All-in-One System Tools - Main Entry Point
-A unified system diagnostic and monitoring tool suite
-
-Author: Srijan-XI
-Date: October 1, 2025
-Version: 2.0
+AIO-SDMS CLI Entry Point
+Main command-line interface for the application
 """
 
 import sys
 import argparse
 from pathlib import Path
 
-# Add current directory to Python path
-sys.path.append(str(Path(__file__).parent))
+from aio_sdms import __version__, config, logger
+from aio_sdms.utils.dependency_checker import check_dependencies_startup
+from aio_sdms.ui.cli.cli_interface import CLIInterface
+from aio_sdms.ui.gui.gui_interface import GUIInterface
+from aio_sdms.ui.web.web_interface import WebInterface
 
-from core.common.dependency_checker import check_dependencies_startup
-from core.common.config import Config
-from core.common.logger import Logger
-from interfaces.cli.cli_interface import CLIInterface
-from interfaces.gui.gui_interface import GUIInterface
-from interfaces.web.web_interface import WebInterface
 
 def main():
-    """Main entry point for the All-in-One System Tools"""
+    """Main entry point for AIO-SDMS"""
     
-    # Check dependencies first
-    print("🔍 Checking dependencies...")
-    if not check_dependencies_startup():
-        sys.exit(1)
-    
-    print("✅ All dependencies OK!\n")
-    
-    # Initialize configuration and logging
-    config = Config()
-    logger = Logger()
+    # Check dependencies first (unless skipped)
+    if '--no-deps-check' not in sys.argv:
+        print("🔍 Checking dependencies...")
+        if not check_dependencies_startup():
+            sys.exit(1)
+        print("✅ All dependencies OK!\n")
     
     # Parse command line arguments
     parser = argparse.ArgumentParser(
-        description='All-in-One System Diagnostic & Monitoring Tools',
+        prog='aio-sdms',
+        description='All-in-One System Diagnostic & Monitoring Suite',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog='''
 Available Tools:
@@ -53,9 +43,10 @@ Interface Options:
   --web       - Web Browser Interface
 
 Examples:
-  python main.py --cli battery
-  python main.py --gui
-  python main.py --web --port 8080
+  aio-sdms --cli battery
+  aio-sdms --gui
+  aio-sdms --web --port 8080
+  python -m aio_sdms --gui
         '''
     )
     
@@ -86,7 +77,8 @@ Examples:
                        help='Enable verbose logging')
     parser.add_argument('--no-deps-check', action='store_true',
                        help='Skip dependency check on startup')
-    parser.add_argument('--version', action='version', version='%(prog)s 2.0')
+    parser.add_argument('--version', action='version', 
+                       version=f'%(prog)s {__version__}')
     
     args = parser.parse_args()
     
@@ -98,7 +90,7 @@ Examples:
     if args.config:
         config.load_from_file(args.config)
     
-    logger.info("Starting All-in-One System Tools v2.0")
+    logger.info(f"Starting AIO-SDMS v{__version__}")
     
     try:
         # Launch appropriate interface
@@ -119,12 +111,15 @@ Examples:
             
     except KeyboardInterrupt:
         logger.info("Application interrupted by user")
-        sys.exit(0)
+        return 0
     except Exception as e:
         logger.error(f"Application error: {e}")
         if args.verbose:
             logger.exception("Full traceback:")
-        sys.exit(1)
+        return 1
+    
+    return 0
+
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
