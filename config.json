@@ -1,0 +1,62 @@
+{
+  "interface": {
+    "default": "cli",
+    "cli": {
+      "colors": true,
+      "progress_bars": true,
+      "clear_screen": true
+    },
+    "gui": {
+      "theme": "default",
+      "window_size": [800, 600],
+      "remember_geometry": true,
+      "auto_refresh": true
+    },
+    "web": {
+      "port": 8080,
+      "host": "localhost",
+      "auto_open_browser": true,
+      "debug": false
+    }
+  },
+  "tools": {
+    "battery": {
+      "charger_wattage": 65.0,
+      "battery_capacity": 50000.0,
+      "update_interval": 5,
+      "show_detailed_info": true,
+      "alert_low_battery": true,
+      "low_battery_threshold": 15
+    },
+    "diagnostics": {
+      "timeout": 30,
+      "auto_fix": false,
+      "generate_report": true,
+      "skip_lengthy_tests": false,
+      "interactive_tests": false
+    },
+    "monitoring": {
+      "update_interval": 2,
+      "history_length": 100,
+      "include_per_cpu": true,
+      "include_disk_io": true,
+      "include_network": true,
+      "temperature_monitoring": true,
+      "show_graphs": true
+    },
+    "packages": {
+      "auto_update_check": true,
+      "backup_before_update": false,
+      "log_actions": true,
+      "silent_install": true,
+      "timeout": 300
+    }
+  },
+  "system": {
+    "log_level": "INFO",
+    "log_file": "system_tools.log",
+    "temp_directory": null,
+    "max_log_size": "10MB",
+    "max_log_files": 5
+  }
+}
