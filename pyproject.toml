@@ -1,0 +1,145 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aio-sdms"
+version = "2.0.0"
+description = "All-in-One System Diagnostic & Monitoring Suite"
+readme = "README.md"
+authors = [
+    {name = "Srijan-XI"}
+]
+license = {text = "MIT"}
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Monitoring",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Utilities",
+]
+keywords = ["system", "monitoring", "diagnostics", "battery", "performance"]
+
+dependencies = [
+    "psutil>=5.9.0",
+    "Flask>=2.3.0",
+    "Flask-CORS>=4.0.0",
+    "colorama>=0.4.6",
+]
+
+[project.optional-dependencies]
+gui = [
+    "matplotlib>=3.5.0",
+    "pystray>=0.19.0",
+    "pillow>=9.0.0",
+]
+windows = [
+    "WMI>=1.5.0; sys_platform == 'win32'",
+    "win10toast>=0.9; sys_platform == 'win32'",
+]
+linux = [
+    "python-dbus>=1.2.18; sys_platform == 'linux'",
+]
+diagnostics = [
+    "opencv-python>=4.5.0",
+    "sounddevice>=0.4.4",
+    "pygame>=2.1.0",
+    "bleak>=0.19.0",
+    "pynput>=1.7.6",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "pytest-mock>=3.10.0",
+    "jupyter>=1.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.950",
+]
+all = [
+    "aio-sdms[gui,windows,linux,diagnostics]",
+]
+
+[project.urls]
+Homepage = "https://github.com/Srijan-XI/AIO-SDMS"
+Documentation = "https://github.com/Srijan-XI/AIO-SDMS/blob/main/README.md"
+Repository = "https://github.com/Srijan-XI/AIO-SDMS.git"
+Issues = "https://github.com/Srijan-XI/AIO-SDMS/issues"
+
+[project.scripts]
+aio-sdms = "aio_sdms.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["aio_sdms*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+aio_sdms = [
+    "ui/web/static/**/*",
+    "ui/web/templates/**/*",
+    "*.json",
+    "*.md",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--verbose",
+    "--color=yes",
+    "--cov=src/aio_sdms",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+]
+
+[tool.coverage.run]
+source = ["src/aio_sdms"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/.*",
+]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+
+[tool.black]
+line-length = 100
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+  | __pycache__
+)/
+'''
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
